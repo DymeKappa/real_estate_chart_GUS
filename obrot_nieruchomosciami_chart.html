@@ -1,0 +1,75 @@
+<div style="width: 800px; height: 400px;">
+    <canvas id="wykres-liniowy"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+    // Dane do wykresu liniowego
+    var dane = {
+        labels: ["2018", "2019", "2020", "2021", "2022"],
+        datasets: [
+            {
+                label: "Ogółem nieruchomości",
+                data: [525082, 562350, 564344, 701462, 531168],
+                borderColor: 'rgb(5,219,245)',
+                tension: 0.1
+            },
+            {
+                label: "Lokale mieszkaniowe i użytkowe",
+                data: [209997, 218553, 209335, 257274, 208089],
+                borderColor: 'rgb(141,255,99)',
+                tension: 0.1
+            },
+            {
+                label: "Spółdzielcze własnościowe prawo do lokalu",
+                data: [48918, 50866, 43253, 51469, 39896],
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            },
+            {
+                label: "Działki niezabudowane",
+                data: [103737, 120664, 141333, 188334, 121949],
+                borderColor: 'rgb(37,9,9)',
+                tension: 0.1
+            },
+            {
+                label: "Nieruchomości rolne",
+                data: [57780, 60990, 62880, 76675, 63318],
+                borderColor: 'rgb(44,112,57)',
+                tension: 0.1
+            },
+            {
+                label: "Działki zabudowane budynkiem mieszkalnym",
+                data: [53821, 61798, 59949, 73064, 53584],
+                borderColor: 'rgb(63,21,107)',
+                tension: 0.1
+            }
+        ]
+    };
+
+    // Konfiguracja wykresu
+    var konfiguracja = {
+        type: 'line',
+        data: dane,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    onClick: function (event, legendItem, legend) {
+                        var index = legendItem.datasetIndex;
+                        var meta = wykresLiniowy.getDatasetMeta(index);
+                        meta.hidden = meta.hidden === null ? !wykresLiniowy.data.datasets[index].hidden : null;
+                        wykresLiniowy.update();
+                    }
+                }
+            }
+        }
+    };
+
+    // Utworzenie wykresu na elemencie canvas
+    var wykresLiniowy = new Chart(document.getElementById('wykres-liniowy'), konfiguracja);
+</script>
